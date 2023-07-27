@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="practice.css">
+    <title>To-List-Project</title>
+</head>
+
+   <style>
+      body {
+        width: 100%
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+      }
+      .main {
+        width: 400px;
+        background: white;
+        padding: 30px;
+        margin-top: 20px;
+        border:2px solid black;
+        border-radius: 20px;
+        position: relative;
+      }
+      .main input {
+        width: 260px;
+        height: 30px;
+        border: 0;
+        background: transparent;
+        border-bottom: 2px solid black;
+        outline: none;
+        font-size: 15px;
+        z-index: 1;
+      }
+      .main #btn {
+        display: grid;
+        place-items: center;
+        width: 60px;
+        height: 35px;
+        border: 0;
+        background: green;
+        color: #fff;
+        border-radius: 10px;
+        font-size: 20px;
+      }
+      .row {
+        display: flex;
+        gap: 20px;
+      }
+      #btn:hover {
+        background: transparent;
+        border: 2px solid green;
+        color: green;
+      }
+      /* text animation */
+      h1 {
+        transform: translateY(0px);
+        animation: float 5s ease-out infinite;
+      }
+      @keyframes float {
+        0%{
+          transform: translateY(0px);
+        }
+        50%{
+          transform: translateY(-20px);
+        }
+        100%{
+          transform: translateY(0px);
+        }
+      }
+      label {
+       display: flex; 
+       display: block; 
+       position: absolute;
+       left: 30px;
+       bottom: 45px;
+       transition: 0.5s;
+      }
+      span {
+        color: green;
+      }
+    /* Styling Element from JavaScript */
+     .task {
+      background: transparent;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      margin-top: 20px;
+      border: 2px solid green;
+      border-radius: 20px;
+    }
+    .list {
+      list-style: none;
+      display: flex;
+      justify-content: flex-start;
+      padding-right: 130px;
+    }
+    .checkBtn {
+      width: 50px;
+      height: 40px;
+      position: absolute;
+      right: 75px;
+      border:0;
+      background: transparent;
+      border: 2px solid orange;
+      color: orange;
+      border-radius: 10px;
+    }
+    .checkBtn:hover {
+      background: orange;
+      color: white;
+    }
+    .delBtn {
+      position: absolute;
+      right: 20px;
+      width: 50px;
+      height: 40px;
+      border:0;
+      background: transparent;
+      border: 2px solid red;
+      color: red;
+      border-radius: 10px;
+    }
+    .delBtn:hover {
+      background: red;
+      color: #fff;
+    }
+    #error {
+      margin-top: 10px;
+    }
+    
+   
+   </style>
+<body>
+    <div class = "contatiner">
+        <h1>TTo-Do-<span>List</span></h1>
+           <div class = "main">
+                   <label id = "email">Input your list</label>
+                 <div class = "row" >
+                     <input type = "text" id = "input-todos" onkeyup = " "placeholder="">
+                     <button id = "btn">+</button>
+                 </div>    
+           </div>
+              <p id = "error"></p>
+             <div id = "todos-data"></div>
+    </div>
+    
+  
+   <script>
+   
+       /* variables */
+     const input = document.getElementById('input-todos');
+     const btn = document.getElementById('btn');
+     const error = document.getElementById('error');
+     const todosData = document.getElementById('todos-data');
+     const label = document.getElementById('email');
+       
+  /* input function*/
+     input.addEventListener('click', function (){
+       label.style.fontSize = "10px";
+       label.style.bottom = "60px";
+       label.style.color = "green";
+       input.style.borderBottomColor = "green";
+       error.innerText = "";
+     });
+     
+   /* main button function */  
+     btn.addEventListener('click', function() {
+       label.style.fontSize = '';
+       label.style.color = "";
+       label.style.bottom = "";
+     /* create element for div and li */
+       let div = document.createElement('div');
+       div.classList.add('task');
+    
+       
+       let li = document.createElement('li');
+       li.classList.add('list');
+       li.innerText = `${input.value}`
+       li.style.fontSize = "20px";
+       div.appendChild(li);
+       
+    /* if condition user error*/   
+       if(input.value === ""){
+          label.style.color = "red";
+          error.innerText = 'Please input your task!';
+          error.style.color = "red";
+          error.style.fontSize = "10px";
+          input.style.borderBottomColor = "red";
+       }
+       else{
+         todosData.appendChild(div);
+         error.innerText = '';
+         input.style.borderBottomColor = '';
+       }
+       input.value = "";
+       
+       /* check and delete button function*/
+       let checkBtn = document.createElement('button');
+       checkBtn.innerText = "Check";
+       checkBtn.classList.add('checkBtn');
+       div.appendChild(checkBtn);
+       
+       let delBtn = document.createElement('button');
+       delBtn.innerText = 'Delete';
+       delBtn.classList.add('delBtn');
+       div.appendChild(delBtn);
+       
+       
+       /* check and delete button event */
+       checkBtn.addEventListener('click', function() {
+          checkBtn.parentElement.style.textDecoration = 'line-through';
+          label.style.fontSize = '';
+          error.innerText = '';
+          label.style.color = "";
+          input.style.borderBottomColor = '';
+          
+          if (input.value === ""){
+            label.style.bottom = "";
+          }else{
+            label.style.bottom = "60px";
+            label.style.color = "green";
+            label.style.fontSize = "10px";
+              if(input.value === input.value){
+                 input.style.borderBottomColor = 'green';
+              }
+          }
+       });
+       
+       delBtn.addEventListener('click', function(e) {
+          let target = e.target;
+          target.parentElement.remove();
+          label.style.fontSize = '';
+          error.innerText = '';
+          label.style.color = "";
+          input.style.borderBottomColor = '';
+          
+          
+          if (input.value === ""){
+            label.style.bottom = "";
+          }else{
+            label.style.bottom = "60px";
+            label.style.color = "green";
+            label.style.fontSize = "10px";
+              if(input.value === input.value){
+                 input.style.borderBottomColor = 'green';
+              }
+          }
+       });
+       
+         
+         
+     });
+    
+  </script>
+</body>
+</html>
